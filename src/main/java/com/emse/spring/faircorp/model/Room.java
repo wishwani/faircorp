@@ -1,53 +1,66 @@
 package com.emse.spring.faircorp.model;
 
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
-
-@Entity // (1).
-@Table(name = "ROOM")
+@Entity
 public class Room {
-
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private int floor;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String name;
 
-    private double currentTemperature;
-
-    private double targetTemperature;
+    @Column(nullable = true)
+    private Double currentTemperature;
+    @Column(nullable = true)
+    private Double targetTemperature;
 
     @OneToMany(mappedBy = "room")
-    private Set<Heater> heaters;
-    @OneToMany(mappedBy = "room")
-    private Set<Window> windows;
+    private List<Heater> heaters;
 
+    @OneToMany(mappedBy = "room")
+    private List<Window> windows;
+
+ 
+
+    @ManyToOne
+    private Building building;
 
     public Room() {
     }
 
-    public Room( int floor, String name) {
+    //public Room(long id, int floor, String name, Double currentTemperature, Double targetTemperature, List<Heater> heaters, List<Window> windows, Building building) {
+       // this.id = id;
+        //this.floor = floor;
+        //this.name = name;
         //this.currentTemperature = currentTemperature;
-        this.floor = floor;
-        this.name = name;
         //this.targetTemperature = targetTemperature;
         //this.heaters = heaters;
         //this.windows = windows;
+        //this.building = building;
+    //}
+
+    public Room(String name, int floor) {
+        this.name = name;
+        this.floor = floor;
+        //this.currentTemperature = currentTemperature;
+        //this.targetTemperature = targetTemperature;
+        //this.building = building;
     }
 
-
-
-    public double getCurrentTemperature() {
-        return currentTemperature;
+    public long getId() {
+        return id;
     }
 
-    public void setCurrentTemperature(double currentTemperature) {
-        this.currentTemperature = currentTemperature;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public int getFloor() {
@@ -66,32 +79,43 @@ public class Room {
         this.name = name;
     }
 
-    public double getTargetTemperature() {
+    public Double getCurrentTemperature() {
+        return currentTemperature;
+    }
+
+    public void setCurrentTemperature(Double currentTemperature) {
+        this.currentTemperature = currentTemperature;
+    }
+
+    public Double getTargetTemperature() {
         return targetTemperature;
     }
 
-    public void setTargetTemperature(double targetTemperature) {
+    public void setTargetTemperature(Double targetTemperature) {
         this.targetTemperature = targetTemperature;
     }
 
-    public Set<Heater> getHeaters(){
+    public List<Heater> getHeaters() {
         return heaters;
     }
 
-    public void setHeaters() {
+    public void setHeaters(List<Heater> heaters) {
         this.heaters = heaters;
     }
 
-    public Set<Window> getWindows(){return windows;}
-
-    public void setWindows(){this.windows = windows;}
-
-    public void setId(Long id) {
-        this.id = id;
+    public List<Window> getWindows() {
+        return windows;
     }
 
+    public void setWindows(List<Window> windows) {
+        this.windows = windows;
+    }
 
-    public Long getId() {
-        return id;
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 }

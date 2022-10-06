@@ -1,34 +1,24 @@
-package com.emse.spring.faircorp.model;
+package com.emse.spring.faircorp.dto;
 
-import javax.persistence.*;
+import com.emse.spring.faircorp.model.Heater;
+import com.emse.spring.faircorp.model.HeaterStatus;
 
-@Entity
-public class Heater {
-    @Id
-    @GeneratedValue
+public class HeaterDto {
     private Long id;
-
-    @Column(nullable = false)
     private String name;
-
     private Long power;
-
-    @ManyToOne
-    private Room room;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    private Long roomId;
     private HeaterStatus heaterStatus;
 
-    public Heater() {
+    public HeaterDto() {
     }
 
-    public Heater(String name, Room room, HeaterStatus heaterStatus) {
-        //this.id = id;
-        this.name = name;
-        //this.power = power;
-        this.room = room;
-        this.heaterStatus = heaterStatus;
+    public HeaterDto(Heater heater){
+        this.id = heater.getId();
+        this.name = heater.getName();
+        this.power = heater.getPower();
+        this.heaterStatus = heater.getHeaterStatus();
+        this.roomId = heater.getRoom().getId();
     }
 
     public Long getId() {
@@ -55,12 +45,12 @@ public class Heater {
         this.power = power;
     }
 
-    public Room getRoom() {
-        return room;
+    public Long getRoomId() {
+        return roomId;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 
     public HeaterStatus getHeaterStatus() {
