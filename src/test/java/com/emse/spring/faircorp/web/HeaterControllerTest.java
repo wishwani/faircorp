@@ -67,27 +67,13 @@ public class HeaterControllerTest {
 
     @Test
     void shouldLoadAHeater() throws Exception {
-        given(heaterDao.findById(999L)).willReturn(Optional.of(createHeater("window 1")));
+        given(heaterDao.findById(999L)).willReturn(Optional.of(createHeater("heater 1")));
 
         mockMvc.perform(get("/api/heaters/999").accept(APPLICATION_JSON))
                 // check the HTTP response
                 .andExpect(status().isOk())
                 // the content can be tested with Json path
-                .andExpect(jsonPath("$.name").value("window 1"));
-    }
-
-    @Test
-    void shouldSwitchHeater() throws Exception {
-        Heater expectedHeater = createHeater("heater 1");
-        Assertions.assertThat(expectedHeater.getHeaterStatus()).isEqualTo(HeaterStatus.ON);
-
-        given(heaterDao.findById(999L)).willReturn(Optional.of(expectedHeater));
-
-        mockMvc.perform(put("/api/heaters/999/switch").accept(APPLICATION_JSON))
-                // check the HTTP response
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("heater 1"))
-                .andExpect(jsonPath("$.heaterStatus").value("CLOSED"));
+                .andExpect(jsonPath("$.name").value("heater 1"));
     }
 
     @Test
