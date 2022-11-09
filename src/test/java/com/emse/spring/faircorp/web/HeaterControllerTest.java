@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+//import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -40,7 +41,10 @@ public class HeaterControllerTest {
     @MockBean
     private RoomDao roomDao;
 
+    Building building;
+
     @Test
+    //@WithMockUser(username = "admin", roles = "ADMIN")
     void shouldLoadHeaters() throws Exception {
         given(heaterDao.findAll()).willReturn(List.of(
                 createHeater("heater 1"),
@@ -55,6 +59,7 @@ public class HeaterControllerTest {
     }
 
     @Test
+    //@WithMockUser(username = "admin", roles = "ADMIN")
     void shouldLoadAHeaterAndReturnNullIfNotFound() throws Exception {
         given(heaterDao.findById(999L)).willReturn(Optional.empty());
 
@@ -66,6 +71,7 @@ public class HeaterControllerTest {
     }
 
     @Test
+    //@WithMockUser(username = "admin", roles = "ADMIN")
     void shouldLoadAHeater() throws Exception {
         given(heaterDao.findById(999L)).willReturn(Optional.of(createHeater("heater 1")));
 
@@ -77,6 +83,7 @@ public class HeaterControllerTest {
     }
 
     @Test
+    //@WithMockUser(username = "admin", roles = "ADMIN")
     void shouldUpdateHeater() throws Exception {
         Heater expectedHeater = createHeater("heater 1");
         expectedHeater.setId(1L);
@@ -93,6 +100,7 @@ public class HeaterControllerTest {
     }
 
     @Test
+    //@WithMockUser(username = "admin", roles = "ADMIN")
     void shouldCreateHeater() throws Exception {
         Heater expectedHeater = createHeater("heater 1");
         expectedHeater.setId(null);
@@ -108,13 +116,14 @@ public class HeaterControllerTest {
     }
 
     @Test
+    //@WithMockUser(username = "admin", roles = "ADMIN")
     void shouldDeleteHeater() throws Exception {
         mockMvc.perform(delete("/api/heaters/999"))
                 .andExpect(status().isOk());
     }
 
     private Heater createHeater(String name) {
-        Room room = new Room("S1", 1);
+        Room room = new Room("S1", 1, building);
         return new Heater(name, room, HeaterStatus.ON);
     }
 }

@@ -8,16 +8,28 @@ import com.emse.spring.faircorp.model.Window;
 import com.emse.spring.faircorp.model.WindowStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//@CrossOrigin
+@CrossOrigin(origins = "http://localhost:8081",allowedHeaders = "*")
+//@CrossOrigin(origins = "http://localhost:8081")
 @RestController // (1)
+//@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping("/api/windows") // (2)
 @Transactional // (3)
+
+//@CrossOrigin
 public class WindowController {
     private final WindowDao windowDao;
     private final RoomDao roomDao;
+
+
 
     public WindowController(WindowDao windowDao, RoomDao roomDao) { // (4)
         this.windowDao = windowDao;
@@ -53,6 +65,8 @@ public class WindowController {
         else {
             window = windowDao.getById(dto.getId());  // (9)
             window.setWindowStatus(dto.getWindowStatus());
+            window.setName(dto.getName());
+            window.setRoom(room);
         }
         return new WindowDto(window);
     }

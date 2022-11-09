@@ -8,3 +8,11 @@ INSERT INTO RWINDOW(id, window_status, name, room_id) VALUES(-10, 'CLOSED', 'Win
 INSERT INTO RWINDOW(id, window_status, name, room_id) VALUES(-9, 'CLOSED', 'Window 2', -10);
 INSERT INTO RWINDOW(id, window_status, name, room_id) VALUES(-8, 'OPEN', 'Window 1', -9);
 INSERT INTO RWINDOW(id, window_status, name, room_id) VALUES(-7, 'CLOSED', 'Window 2', -9);
+
+INSERT INTO BUILDING(id, name) VALUES(1, 'Building 1');
+INSERT INTO BUILDING(id, name) VALUES(2, 'Building 2');
+
+UPDATE ROOM SET BUILDING_ID = 1 WHERE id = -10;
+UPDATE ROOM SET BUILDING_ID = 2 WHERE id = -9;
+
+
