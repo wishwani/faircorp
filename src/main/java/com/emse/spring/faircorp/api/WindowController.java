@@ -16,15 +16,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@CrossOrigin
+
 @CrossOrigin(origins = "http://localhost:8081",allowedHeaders = "*")
-//@CrossOrigin(origins = "http://localhost:8081")
 @RestController // (1)
-//@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping("/api/windows") // (2)
 @Transactional // (3)
 
-//@CrossOrigin
 public class WindowController {
     private final WindowDao windowDao;
     private final RoomDao roomDao;

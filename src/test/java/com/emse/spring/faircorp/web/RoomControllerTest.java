@@ -1,15 +1,10 @@
 package com.emse.spring.faircorp.web;
 
-import com.emse.spring.faircorp.api.BuildingController;
 import com.emse.spring.faircorp.api.RoomController;
 import com.emse.spring.faircorp.dao.BuildingDao;
-import com.emse.spring.faircorp.dao.HeaterDao;
 import com.emse.spring.faircorp.dao.RoomDao;
-import com.emse.spring.faircorp.dto.HeaterDto;
 import com.emse.spring.faircorp.dto.RoomDto;
 import com.emse.spring.faircorp.model.Building;
-import com.emse.spring.faircorp.model.Heater;
-import com.emse.spring.faircorp.model.HeaterStatus;
 import com.emse.spring.faircorp.model.Room;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
