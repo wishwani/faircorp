@@ -40,6 +40,8 @@ public class RoomControllerTest {
     private BuildingDao buildingDao;
     Building building;
     int floor;
+    double currentTemperature;
+    double targetTemperature;
     @Test
         //@WithMockUser(username = "admin", roles = "ADMIN")
     void shouldLoadRooms() throws Exception {
@@ -120,6 +122,6 @@ public class RoomControllerTest {
     }
 
     private Room createRoom(String name) {
-        return new Room(name, floor, building);
+        return new Room(name, floor, currentTemperature, targetTemperature, building);
     }
 }

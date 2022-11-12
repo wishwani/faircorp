@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:8081" )
+@CrossOrigin(origins = "http://localhost:8081", allowedHeaders = "*" )
 @RestController // (1)
 @RequestMapping("/api/rooms") // (2)
 @Transactional // (3)
@@ -59,7 +59,7 @@ public class RoomController {
         Building building = buildingDao.getById(dto.getBuildingId());
         Room room;
         if (dto.getId() == null) {
-            room = roomDao.save(new Room(dto.getName(), dto.getFloor(), building));
+            room = roomDao.save(new Room(dto.getName(), dto.getFloor(), dto.getCurrentTemperature(), dto.getTargetTemperature(), building));
         } else {
             room = roomDao.getById(dto.getId());
             room.setFloor(dto.getFloor());

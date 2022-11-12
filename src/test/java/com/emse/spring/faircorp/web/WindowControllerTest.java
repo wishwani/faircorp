@@ -142,7 +142,7 @@ public class WindowControllerTest {
 
     private Window createWindow(String name) {
 
-       Room room = new Room("S1", 1, building);
+       Room room = new Room("S1", 1, 1, 1, building);
         return new Window(name, WindowStatus.OPEN, room);
     }
 
