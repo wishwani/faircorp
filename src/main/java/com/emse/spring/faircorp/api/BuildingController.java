@@ -1,6 +1,8 @@
 package com.emse.spring.faircorp.api;
 
 import com.emse.spring.faircorp.dao.BuildingDao;
+import com.emse.spring.faircorp.dao.HeaterDao;
+import com.emse.spring.faircorp.dao.RoomDao;
 import com.emse.spring.faircorp.dto.BuildingDto;
 import com.emse.spring.faircorp.model.Building;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,12 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/buildings")
 @Transactional
-    public class BuildingController {
+public class BuildingController {
+    private BuildingDao buildingDao;
 
-        @Autowired
-        private BuildingDao buildingDao;
+    public BuildingController(BuildingDao buildingDao) { // (4)
+        this.buildingDao = buildingDao;
+    }
 
         @GetMapping
         public List<BuildingDto> findAll() {

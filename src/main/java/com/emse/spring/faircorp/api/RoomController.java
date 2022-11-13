@@ -21,16 +21,18 @@ import java.util.stream.Collectors;
 @Transactional // (3)
 //@CrossOrigin
 public class RoomController {
-    @Autowired
-    private RoomDao roomDao;
-    @Autowired
-    private BuildingDao buildingDao;
 
-    @Autowired
-    private WindowDao windowDao;
+    private final RoomDao roomDao;
+    private final BuildingDao buildingDao;
+    private final WindowDao windowDao;
+    private final HeaterDao heaterDao;
 
-    @Autowired
-    private HeaterDao heaterDao;
+    public RoomController(HeaterDao heaterDao, RoomDao roomDao, BuildingDao buildingDao, WindowDao windowDao) { // (4)
+        this.heaterDao = heaterDao;
+        this.roomDao = roomDao;
+        this.buildingDao = buildingDao;
+        this.windowDao = windowDao;
+    }
 
 
     @GetMapping // (5)

@@ -26,8 +26,6 @@ public class WindowController {
     private final WindowDao windowDao;
     private final RoomDao roomDao;
 
-
-
     public WindowController(WindowDao windowDao, RoomDao roomDao) { // (4)
         this.windowDao = windowDao;
         this.roomDao = roomDao;

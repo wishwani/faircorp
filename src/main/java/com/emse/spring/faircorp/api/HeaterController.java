@@ -21,11 +21,8 @@ import java.util.stream.Collectors;
 @Transactional // (3)
 //@CrossOrigin
 public class HeaterController {
-    @Autowired
     private final HeaterDao heaterDao;
-    @Autowired
     private final RoomDao roomDao;
-
 
     public HeaterController(HeaterDao heaterDao, RoomDao roomDao) { // (4)
         this.heaterDao = heaterDao;
