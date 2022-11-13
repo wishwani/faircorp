@@ -1,6 +1,5 @@
-package com.emse.spring.faircorp.web;
+package com.emse.spring.faircorp.api;
 
-import com.emse.spring.faircorp.api.WindowController;
 import com.emse.spring.faircorp.dao.RoomDao;
 import com.emse.spring.faircorp.dao.WindowDao;
 import com.emse.spring.faircorp.dto.WindowDto;
@@ -100,22 +99,7 @@ public class WindowControllerTest {
                 .andExpect(jsonPath("$.windowStatus").value("CLOSED"));
     }
 
-    @Test
-    @WithMockUser(username = "admin", roles = "ADMIN")
-    void shouldUpdateWindow() throws Exception {
-        Window expectedWindow = createWindow("window 1");
-        expectedWindow.setId(1L);
-        String json = objectMapper.writeValueAsString(new WindowDto(expectedWindow));
 
-        given(roomDao.getReferenceById(anyLong())).willReturn(expectedWindow.getRoom());
-        given(windowDao.getReferenceById(anyLong())).willReturn(expectedWindow);
-
-        mockMvc.perform(post("/api/windows").with(csrf()).content(json).contentType(APPLICATION_JSON_VALUE))
-                // check the HTTP response
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("window 1"))
-                .andExpect(jsonPath("$.id").value("1"));
-    }
 
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")

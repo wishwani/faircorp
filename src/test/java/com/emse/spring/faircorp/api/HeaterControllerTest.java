@@ -1,11 +1,11 @@
-package com.emse.spring.faircorp.web;
+package com.emse.spring.faircorp.api;
 
-import com.emse.spring.faircorp.api.HeaterController;
 import com.emse.spring.faircorp.dao.HeaterDao;
 import com.emse.spring.faircorp.dao.RoomDao;
 import com.emse.spring.faircorp.dto.HeaterDto;
 import com.emse.spring.faircorp.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -82,22 +82,24 @@ public class HeaterControllerTest {
                 .andExpect(jsonPath("$.name").value("heater 1"));
     }
 
+
+
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
-    void shouldUpdateHeater() throws Exception {
+    void shouldSwitchHeater() throws Exception {
         Heater expectedHeater = createHeater("heater 1");
-        expectedHeater.setId(1L);
-        String json = objectMapper.writeValueAsString(new HeaterDto(expectedHeater));
+        Assertions.assertThat(expectedHeater.getHeaterStatus()).isEqualTo(HeaterStatus.ON);
 
-        given(roomDao.getReferenceById(anyLong())).willReturn(expectedHeater.getRoom());
-        given(heaterDao.getReferenceById(anyLong())).willReturn(expectedHeater);
+        given(heaterDao.findById(999L)).willReturn(Optional.of(expectedHeater));
 
-        mockMvc.perform(post("/api/heaters").content(json).contentType(APPLICATION_JSON_VALUE))
+        mockMvc.perform(put("/api/heaters/999/switch").with(csrf()).accept(APPLICATION_JSON))
+
                 // check the HTTP response
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("heater 1"))
-                .andExpect(jsonPath("$.id").value("1"));
+                .andExpect(jsonPath("$.heaterStatus").value("OFF"));
     }
+
 
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")

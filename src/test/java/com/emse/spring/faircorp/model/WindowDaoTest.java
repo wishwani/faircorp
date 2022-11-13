@@ -54,6 +54,18 @@ class WindowDaoTest {
         Assertions.assertThat(result).isEmpty();
 
     }
+    @Test
+    public void ShouldCreateWindow() {
+        Room room = roomDao.getReferenceById(-10l);
+        Window newWindow = new Window();
+        newWindow.setName("Test");
+        newWindow.setRoom(room);
+        newWindow.setWindowStatus(WindowStatus.OPEN);
+        Window window = windowDao.save(newWindow);
+        Assertions.assertThat(window.getName()).isEqualTo(newWindow.getName());
+        Assertions.assertThat(window.getRoom()).isEqualTo(newWindow.getRoom());
+        Assertions.assertThat(window.getWindowStatus()).isEqualTo(newWindow.getWindowStatus());
+    }
 
 
 }
