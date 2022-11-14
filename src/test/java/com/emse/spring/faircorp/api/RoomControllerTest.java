@@ -1,58 +1,111 @@
 package com.emse.spring.faircorp.api;
 
+import com.emse.spring.faircorp.dao.HeaterDao;
 import com.emse.spring.faircorp.dao.RoomDao;
 import com.emse.spring.faircorp.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
+import java.util.Optional;
 
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
-@WebMvcTest(RoomController.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc()
+
 public class RoomControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Autowired
     private RoomDao roomDao;
 
-    int floor;
-    double currentTemperature;
-    double targetTemperature;
+    @Autowired
+    private HeaterDao heaterDao;
+
     Building building;
 
     @Test
     @WithMockUser(username = "admin", roles = "ADMIN")
-    void shouldLoadRooms() throws Exception {
-        given(roomDao.findAll()).willReturn(List.of(
-                createRoom("room 1"),
-                createRoom("room 2")
-        ));
-
-        mockMvc.perform(get("/api/rooms").accept(APPLICATION_JSON))
-                // check the HTTP response
+    void shouldCreateRoom() throws Exception {
+        mockMvc.perform(post("/api/rooms/").with(csrf()).contentType(APPLICATION_JSON)
+                        .content("{\n" +
+                                "  \"buildingId\": 1,\n" +
+                                "  \"currentTemperature\": 20,\n" +
+                                "  \"floor\": 2,\n" +
+                                "  \"name\": \"Test Room\",\n" +
+                                "  \"targetTemperature\": 20\n" +
+                                "}").accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                // the content can be tested with Json path
-                .andExpect(jsonPath("[*].name").value(containsInAnyOrder("room 1", "room 2")));
+                .andExpect(jsonPath("$.buildingId").value(1L))
+                .andExpect(jsonPath("$.currentTemperature").value(20))
+                .andExpect(jsonPath("$.floor").value(2))
+                .andExpect(jsonPath("$.name").value("Test Room"))
+                .andExpect(jsonPath("$.targetTemperature").value(20));
     }
 
-    private Room createRoom(String name) {
-
-
-        return new Room(name, floor, currentTemperature, targetTemperature, building);
+    @Test
+    @WithMockUser(username = "admin", roles = "ADMIN")
+    void shouldLoadARoomAndReturnNull() throws Exception {
+        mockMvc.perform(get("/api/rooms/999").accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
     }
 
+    @Test
+    @WithMockUser(username = "admin", roles = "ADMIN")
+    void shouldLoadARoomAndReturnValue() throws Exception {
+        mockMvc.perform(get("/api/rooms/-9").accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(-9L))
+                .andExpect(jsonPath("$.name").value("Room2"));
+    }
 
+    @Test
+    @WithMockUser(username = "admin", roles = "ADMIN")
+    void shouldLoadAllRooms() throws Exception {
+        mockMvc.perform(get("/api/rooms").accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = "ADMIN")
+    void shouldDeleteRoom() throws Exception {
+        mockMvc.perform(delete("/api/rooms/-8").accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = "ADMIN")
+    void shouldSwitchHeaterStatus() throws Exception {
+        Optional<Room> optRoom = roomDao.findById(-10L);
+        Room room = optRoom.get();
+        mockMvc.perform(put("/api/rooms/-10/switchHeater").with(csrf()).accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                //.andExpect(jsonPath("$.id").value(-10L))
+                .andExpect(jsonPath("$.heaterStatus").value(room.getHeaters().get(1).getHeaterStatus()== HeaterStatus.ON ? "OFF" : "ON"));
+    }
+
+    /*@Test
+    @WithMockUser(username = "admin", roles = "ADMIN")
+    void shouldSwitchWindowStatus() throws Exception {
+        Optional<Room> optRoom = roomDao.findById(-10L);
+        Room room = optRoom.get();
+        mockMvc.perform(put("/api/rooms/-10/switchWindow").with(csrf()).accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                //.andExpect(jsonPath("$.id").value(-10L))
+                .andExpect(jsonPath("$.windowStatus").value(room.getWindows().get(3).getWindowStatus()== WindowStatus.OPEN ? "CLOSE" : "OPEN"));
+    }*/
 
 }

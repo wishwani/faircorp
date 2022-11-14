@@ -22,7 +22,7 @@ public class Room {
     @Column(nullable = true)
     private Double targetTemperature;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER)
     private List<Heater> heaters;
 
     @OneToMany(mappedBy = "room")

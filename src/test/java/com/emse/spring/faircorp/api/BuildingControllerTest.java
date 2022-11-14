@@ -89,7 +89,7 @@ public class BuildingControllerTest {
 
         given(buildingDao.save(any())).willReturn(expectedBuilding);
 
-        mockMvc.perform(post("/api/buildings").with(csrf()).content(json).contentType(APPLICATION_JSON_VALUE))
+        mockMvc.perform(post("/api/buildings/").with(csrf()).content(json).contentType(APPLICATION_JSON_VALUE))
                 // check the HTTP response
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("building 1"));
