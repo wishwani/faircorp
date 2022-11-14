@@ -1,6 +1,9 @@
-package com.emse.spring.faircorp.model;
+package com.emse.spring.faircorp.dao;
 import com.emse.spring.faircorp.dao.HeaterDao;
 import com.emse.spring.faircorp.dao.RoomDao;
+import com.emse.spring.faircorp.model.Heater;
+import com.emse.spring.faircorp.model.HeaterStatus;
+import com.emse.spring.faircorp.model.Room;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

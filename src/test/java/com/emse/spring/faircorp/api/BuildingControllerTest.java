@@ -35,8 +35,6 @@ public class BuildingControllerTest {
     private ObjectMapper objectMapper;
 
 
-
-
     @MockBean
     private BuildingDao buildingDao;
     Long id;

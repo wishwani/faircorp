@@ -10,12 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import javax.transaction.Transactional;
 
 @RestController
+@Transactional
+
 public class SecurityController {
-    //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    //String currentPrincipalName = authentication.getName();
 
     @GetMapping(path = "/{id}")
     public String findUserName(@AuthenticationPrincipal UserDetails userDetails) {
@@ -29,3 +29,4 @@ public class SecurityController {
     }
 
 }
+

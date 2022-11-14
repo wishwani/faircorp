@@ -1,7 +1,9 @@
-package com.emse.spring.faircorp.model;
+package com.emse.spring.faircorp.dao;
 
 import com.emse.spring.faircorp.dao.BuildingDao;
 import com.emse.spring.faircorp.dao.RoomDao;
+import com.emse.spring.faircorp.model.Building;
+import com.emse.spring.faircorp.model.Room;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

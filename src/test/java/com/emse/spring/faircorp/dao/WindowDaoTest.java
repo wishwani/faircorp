@@ -1,7 +1,10 @@
-package com.emse.spring.faircorp.model;
+package com.emse.spring.faircorp.dao;
 
 import com.emse.spring.faircorp.dao.RoomDao;
 import com.emse.spring.faircorp.dao.WindowDao;
+import com.emse.spring.faircorp.model.Room;
+import com.emse.spring.faircorp.model.Window;
+import com.emse.spring.faircorp.model.WindowStatus;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;

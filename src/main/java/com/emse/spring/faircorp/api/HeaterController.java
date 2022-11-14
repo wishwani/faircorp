@@ -3,12 +3,10 @@ package com.emse.spring.faircorp.api;
 import com.emse.spring.faircorp.dao.HeaterDao;
 import com.emse.spring.faircorp.dao.RoomDao;
 import com.emse.spring.faircorp.dto.HeaterDto;
-import com.emse.spring.faircorp.dto.WindowDto;
 import com.emse.spring.faircorp.model.Heater;
 import com.emse.spring.faircorp.model.Room;
-import com.emse.spring.faircorp.model.Window;
-import com.emse.spring.faircorp.model.WindowStatus;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.emse.spring.faircorp.model.HeaterStatus;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -19,7 +17,7 @@ import java.util.stream.Collectors;
 @RestController // (1)
 @RequestMapping("/api/heaters") // (2)
 @Transactional // (3)
-//@CrossOrigin
+
 public class HeaterController {
     private final HeaterDao heaterDao;
     private final RoomDao roomDao;
@@ -39,7 +37,12 @@ public class HeaterController {
         return heaterDao.findById(id).map(HeaterDto::new).orElse(null); // (7)
     }
 
-
+    @PutMapping(path = "/{id}/switch")
+    public HeaterDto switchStatus(@PathVariable Long id) {
+        Heater heater = heaterDao.findById(id).orElseThrow(IllegalArgumentException::new);
+        heater.setHeaterStatus(heater.getHeaterStatus() == HeaterStatus.ON ? HeaterStatus.OFF: HeaterStatus.ON);
+        return new HeaterDto(heater);
+    }
 
 
     @PostMapping // (8)
