@@ -33,8 +33,8 @@ To test end-points you can use following link [Swagger](http://faircorp-applicat
 
 | HTTP method | URL | Comment |
 |--|--|--|
-| **GET** | /api/users | returns list of all users (user must have admin role to do so)|
-| **GET** | /api/users/{id}| returns a specific user by id|
+| **GET** | /api | returns list of all users (user must have admin role to do so)|
+| **GET** | /api/{id}| returns a specific user by id|
 
 
 ## building-controller (Requires user with admin role)
