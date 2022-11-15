@@ -23,7 +23,7 @@ Credentials of users:
     * password: userpwd
 
 
-Final application is hosted at [faircorp](https://faircorp-application-randika.cleverapps.io)
+Final application is hosted at Clever Cloud [faircorp](https://faircorp-application-randika.cleverapps.io)
 
 To test end-points you can use following link [Swagger](http://faircorp-application-randika.cleverapps.io/swagger-ui/index.html)
 
