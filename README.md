@@ -34,6 +34,7 @@ To test end-points you can use following link [Swagger](http://faircorp-applicat
 | HTTP method | URL | Comment |
 |--|--|--|
 | **GET** | /api/users | returns list of all users (user must have admin role to do so)|
+| **GET** | /api/users/{id}| returns a specific user by id|
 
 
 ## building-controller (Requires user with admin role)
@@ -78,3 +79,5 @@ To test end-points you can use following link [Swagger](http://faircorp-applicat
 | **DELETE** | /api/heaters/{id} | deletes a heater by id|
 | **PUT** | /api/heaters/{id}/switch | inverts heater's status if it was ON it will become OFF or if it was OFF it will become ON|
 
+# **Test-Coverage**
+## All unit testings are passed successfully
